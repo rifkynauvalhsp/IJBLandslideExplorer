@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndrajaBuana Landslide Explorer | DRPRS Unpad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
+        h1, h2, h3, h4, h5 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        /* Hero gradient shadow solidified to avoid blue pattern issues */
+        .hero-gradient { background: linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.80) 100%); }
+        .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .image-overlay { background: linear-gradient(0deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0) 100%); }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="DRPRSlogo.jpg" alt="DRPRS Logo" class="w-10 h-10 object-contain rounded bg-white shadow-sm border border-slate-200">
+                <div class="flex flex-col justify-center">
+                    <span class="font-['Plus_Jakarta_Sans'] font-extrabold text-xl tracking-tight text-slate-900 leading-none">DRPRS Unpad</span>
+                    <span class="text-[9px] uppercase tracking-wider text-slate-500 font-bold mt-1">Digital Rock Physics & Remote Sensing</span>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center space-x-6">
+                <a href="#problem" class="text-sm font-semibold text-slate-500 hover:text-blue-600 transition">Tantangan</a>
+                <a href="#management" class="text-sm font-semibold text-slate-500 hover:text-blue-600 transition">Manajemen</a>
+                <a href="#methodology" class="text-sm font-semibold text-slate-500 hover:text-blue-600 transition">Analisis & ML</a>
+                <a href="#casestudy" class="text-sm font-semibold text-slate-500 hover:text-blue-600 transition">Studi Kasus</a>
+                <a href="#citations" class="text-sm font-semibold text-slate-500 hover:text-blue-600 transition">Sitasi</a>
+            </div>
+            <a href="#live-app" class="hidden md:inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30">
+                Buka Explorer
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-24 lg:pt-48 lg:pb-32 bg-slate-900 overflow-hidden">
+        <!-- Hero Background Image: Sentinel Ground Truth Image with opacity and gradient to make it pop but readable -->
+        <img src="Groundtruthpanel.jpg" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-luminosity" alt="Sentinel Ground Truth Latar Belakang">
+        <div class="absolute inset-0 hero-gradient"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="text-blue-400 text-xs font-bold tracking-widest uppercase mono">Penelitian & Dashboard Interaktif</span>
+                <span class="text-slate-500 text-xs">•</span>
+                <span class="text-slate-300 text-xs font-bold tracking-widest uppercase mono">Jawa Barat, Indonesia</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-4 max-w-4xl drop-shadow-2xl">
+                IndrajaBuana Landslide Explorer
+            </h1>
+            <h2 class="text-xl md:text-2xl text-blue-300 font-bold mb-6 tracking-wide font-['Plus_Jakarta_Sans'] drop-shadow-md">
+                Deteksi dan analisis dampak longsor independen kondisi cuaca.
+            </h2>
+            <p class="text-lg md:text-xl text-slate-200 font-light max-w-3xl leading-relaxed mb-8 drop-shadow-md">
+                Sebuah kerangka kerja geokomputasi mutakhir yang melatih model <em>Ensemble Machine Learning</em> menggunakan referensi citra komersial beresolusi ultra-tinggi, dan mengimplementasikannya secara terukur pada konstelasi radar Sentinel-1 penembus awan untuk analitik bencana presisi.
+            </p>
+
+            <!-- AUTHORS & OWNERS -->
+            <div class="mb-12 border-l-4 border-blue-500 pl-5 py-1 bg-slate-800/30 backdrop-blur-sm rounded-r-lg max-w-2xl">
+                <p class="text-xs text-blue-300 font-bold uppercase tracking-widest mb-1">Pengembang Utama Proyek</p>
+                <p class="text-lg font-['Plus_Jakarta_Sans'] font-bold text-white leading-snug">Rifky Nauval Hendrawan & Dr. Irwan Ary Dharmawan</p>
+                <p class="text-sm text-slate-300 mt-1"><i class="fa-solid fa-flask text-slate-400 mr-2"></i>Laboratorium Digital Rock Physics & Remote Sensing (DRPRS) - Universitas Padjadjaran</p>
+            </div>
+
+            <!-- STATS / METRICS GRID -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                <div class="glass-panel rounded-xl p-5 hover:-translate-y-1 transition-transform cursor-default shadow-lg">
+                    <div class="text-blue-300 text-xs font-semibold mb-1 uppercase tracking-wider">Data Referensi</div>
+                    <div class="text-white font-bold text-lg font-['Plus_Jakarta_Sans']">PlanetScope (3m)<br>Label Resolusi Tinggi</div>
+                </div>
+                <div class="glass-panel rounded-xl p-5 hover:-translate-y-1 transition-transform cursor-default shadow-lg">
+                    <div class="text-blue-300 text-xs font-semibold mb-1 uppercase tracking-wider">Arsitektur ML</div>
+                    <div class="text-white font-bold text-lg font-['Plus_Jakarta_Sans']">Ensemble Model<br>(RF + GBM)</div>
+                </div>
+                <div class="glass-panel rounded-xl p-5 hover:-translate-y-1 transition-transform cursor-default shadow-lg">
+                    <div class="text-blue-300 text-xs font-semibold mb-1 uppercase tracking-wider">Pemodelan Risiko</div>
+                    <div class="text-white font-bold text-lg font-['Plus_Jakarta_Sans']">Indeks Dinamis<br>AHP 5-Faktor</div>
+                </div>
+                <div class="glass-panel rounded-xl p-5 hover:-translate-y-1 transition-transform cursor-default shadow-lg">
+                    <div class="text-blue-300 text-xs font-semibold mb-1 uppercase tracking-wider">Infrastruktur</div>
+                    <div class="text-white font-bold text-lg font-['Plus_Jakarta_Sans']">Google Earth Engine<br>Komputasi Awan</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE PROBLEM / WEST JAVA CONTEXT -->
+    <section id="problem" class="py-20 bg-white">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-sm font-bold text-blue-600 tracking-widest uppercase mb-2">Tantangan Utama</h2>
+                    <h3 class="text-3xl font-bold text-slate-900 mb-6 font-['Plus_Jakarta_Sans']">Kendala Optik & Paradoks Skalabilitas</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                        Tanah longsor merupakan salah satu bencana alam paling merusak di kawasan pegunungan tropis seperti Jawa Barat. Tanah residu vulkanik yang umumnya stabil dalam kondisi kering dapat menjadi sangat rentan dan memicu keruntuhan lereng katastropik saat terjadi anomali hidrometeorologi ekstrem.
+                    </p>
+                    <p class="text-slate-600 mb-6 leading-relaxed text-justify">
+                        Secara historis, pemetaan kejadian longsor memunculkan dua masalah utama: <strong>1) Kendala Optik:</strong> Badai besar menutupi zona bencana dengan awan yang tebal dan persisten, membuat satelit standar (Landsat, Sentinel-2) lumpuh pada masa tanggap darurat yang kritis. <strong>2) Paradoks Skalabilitas:</strong> Citra satelit komersial beresolusi tinggi dapat melihat detail tajam, namun terlalu mahal dan sempit cakupannya untuk pemantauan level regional yang masif.
+                    </p>
+                    
+                    <div class="bg-slate-50 border-l-4 border-blue-600 p-5 rounded-r-lg">
+                        <p class="text-sm text-slate-700 italic font-medium">
+                            "Bagaimana kita mencapai tingkat akurasi tinggi dari satelit komersial, sekaligus mempertahankan skalabilitas pemantauan regional dan kemampuan menembus awan dari data radar (SAR) publik yang gratis?"
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Cloudy Images Grid -->
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="relative rounded-2xl overflow-hidden shadow-lg group">
+                        <img src="Cloudydata1.jpg" alt="Data Optik Tertutup Awan 1" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 image-overlay flex items-end p-4">
+                            <p class="text-white text-xs font-medium">Kegagalan pemantauan satelit optik akibat tutupan badai monsun.</p>
+                        </div>
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-lg group">
+                        <img src="Cloudydata2.jpg" alt="Data Optik Tertutup Awan 2" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 image-overlay flex items-end p-4">
+                            <p class="text-white text-xs font-medium">Awan persisten pasca-bencana menunda intelijen geospasial.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MANAGEMENT VIEW -->
+    <section id="management" class="py-20 bg-slate-900 text-white relative overflow-hidden border-t border-slate-800">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+            <div class="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[100px]"></div>
+            <div class="absolute -bottom-[20%] -left-[10%] w-[600px] h-[600px] rounded-full bg-emerald-600/10 blur-[100px]"></div>
+        </div>
+
+        <div class="container mx-auto px-6 max-w-6xl relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-emerald-400 tracking-widest uppercase mb-2">Urgensi Strategis</h2>
+                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-['Plus_Jakarta_Sans']">Perspektif Manajemen Bencana</h3>
+                <p class="text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                    Sistem ini tidak hanya mengeksekusi komputasi rumit, tetapi dirancang secara fundamental untuk memecahkan hambatan operasional bagi para pengambil keputusan, perencana wilayah, dan badan penanggulangan bencana (seperti BPBD).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700 p-8 rounded-2xl hover:bg-slate-800 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                    <h4 class="text-xl font-bold font-['Plus_Jakarta_Sans'] mb-3">Tinjauan Cepat (Rapid Assessment)</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Menghilangkan "periode buta" berminggu-minggu akibat awan. Penetrasi radar SAR memetakan keruntuhan lereng dalam waktu 24-48 jam, vital untuk mengarahkan operasi Search and Rescue (SAR).</p>
+                </div>
+                <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700 p-8 rounded-2xl hover:bg-slate-800 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-boxes-packing"></i>
+                    </div>
+                    <h4 class="text-xl font-bold font-['Plus_Jakarta_Sans'] mb-3">Presisi Alokasi Logistik</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Melakukan interseksi poligon longsor dengan demografi WorldPop dan jejak bangunan Microsoft. Manajemen mendapat estimasi pasti jumlah jiwa dan aset rumah yang terdampak.</p>
+                </div>
+                <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700 p-8 rounded-2xl hover:bg-slate-800 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-satellite-dish"></i>
+                    </div>
+                    <h4 class="text-xl font-bold font-['Plus_Jakarta_Sans'] mb-3">Skalabilitas Ekonomi Data</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Melatih AI pada sampel sempit data Planet yang akurat, kemudian memprediksinya ke jutaan piksel data Sentinel yang gratis. Provinsi mendapat akurasi tinggi tanpa beban langganan data ekstrem.</p>
+                </div>
+                <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700 p-8 rounded-2xl hover:bg-slate-800 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="text-xl font-bold font-['Plus_Jakarta_Sans'] mb-3">Kebijakan Tata Ruang Proaktif</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Indeks Bahaya AHP memberdayakan pemerintah lokal untuk mengaudit Rencana Tata Ruang Wilayah (RTRW), merancang jalur evakuasi, dan menolak izin bangunan di zona merah sebelum bencana menelan korban.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- METHODOLOGY: THE TECHNICAL INNOVATION -->
+    <section id="methodology" class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-blue-600 tracking-widest uppercase mb-2">Penjelasan Analitik & Metode</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-['Plus_Jakarta_Sans']">Arsitektur Fusi Multi-Sensor & Ensemble ML</h3>
+                <p class="text-slate-600 max-w-3xl mx-auto">Alur kerja geokomputasi mendalam yang menggabungkan fisika gelombang mikro, indeks optik, dan pembelajaran mesin terpadu (<em>Ensemble Machine Learning</em>).</p>
+            </div>
+
+            <!-- Pipeline Step 1 -->
+            <div class="flex flex-col md:flex-row gap-10 items-start mb-16">
+                <div class="md:w-1/3 relative">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20"></div>
+                    <img src="Preeventplanet5jan2026.jpg" alt="Ground Truth Data" class="relative rounded-xl shadow-md w-full object-cover aspect-video border border-slate-200">
+                </div>
+                <div class="md:w-2/3">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-lg"><i class="fa-solid fa-satellite"></i></div>
+                        <h4 class="text-2xl font-bold text-slate-900 font-['Plus_Jakarta_Sans']">1. Penentuan Ground Truth Presisi (PlanetScope)</h4>
+                    </div>
+                    <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                        AI membutuhkan "guru" yang akurat. Kami menggunakan citra komersial satelit PlanetScope (resolusi 3 meter) pasca kejadian longsor ekstrem. Sistem mengevaluasi kalkulasi selisih <em>Normalized Difference Vegetation Index</em> (NDVI) sebelum dan sesudah kejadian pada piksel resolusi tinggi ini.
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-justify">
+                        Dengan filter heuristik berlapis—seperti ambang batas reflektansi pita Near-Infrared (Band 8) dan penyaringan awan lokal (Band 2)—sistem mengekstraksi titik koordinat presisi tinggi yang 100% dipastikan sebagai area keruntuhan (<em>Ground Truth Labels</em>) untuk diberikan kepada model Machine Learning.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pipeline Step 2 -->
+            <div class="flex flex-col md:flex-row-reverse gap-10 items-start mb-16">
+                <div class="md:w-1/3 relative">
+                    <img src="SARfeature.jpg" alt="Hamburan Balik SAR" class="rounded-xl shadow-md w-full object-cover aspect-video border border-slate-200">
+                </div>
+                <div class="md:w-2/3">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 font-bold flex items-center justify-center text-lg"><i class="fa-solid fa-layer-group"></i></div>
+                        <h4 class="text-2xl font-bold text-slate-900 font-['Plus_Jakarta_Sans']">2. Fitur SAR & Ekstraksi Optikal Sentinel</h4>
+                    </div>
+                    <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                        Untuk memprediksi secara masif pada data publik, kami menggunakan satelit radar Sentinel-1. Kami memanfaatkan algoritma <strong>Normalized Radar Burn Ratio (NRBR)</strong>. Saat longsor menyapu kanopi pohon (polarisasi silang VH) dan mengekspos tanah kosong/batuan datar (polarisasi VV), sifat hamburan balik gelombang mikro berubah drastis.
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-justify">
+                        NRBR mengisolasi hilangnya vegetasi mendadak akibat gerakan tanah tanpa terhalang awan. Fitur SAR yang kuat ini kemudian disusun dalam <em>tensor multi-dimensi</em> bersama data indeks Optik (dNDVI, dGNDVI, dNDWI) dari Sentinel-2, serta fitur topografi (Elevasi & Slope NASADEM).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pipeline Step 3 (HEAVILY DETAILED ENSEMBLE ML) -->
+            <div class="flex flex-col md:flex-row gap-10 items-start mb-16">
+                <div class="md:w-1/3 relative">
+                    <img src="Saropticalfusiondetection.jpg" alt="Machine Learning Fusi" class="rounded-xl shadow-md w-full object-cover aspect-video border border-slate-200">
+                    <div class="absolute inset-0 image-overlay flex items-end p-4 rounded-xl">
+                        <p class="text-white text-xs font-medium">Gambar: Hasil pemetaan fusi SAR-Optikal menggunakan algoritma ML Ensemble.</p>
+                    </div>
+                </div>
+                <div class="md:w-2/3">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 font-bold flex items-center justify-center text-lg"><i class="fa-solid fa-network-wired"></i></div>
+                        <h4 class="text-2xl font-bold text-slate-900 font-['Plus_Jakarta_Sans']">3. Fusi Pembelajaran Mesin: <em>Ensemble Model</em></h4>
+                    </div>
+                    <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                        Pemetaan ambang batas tunggal (seperti hanya memakai NRBR < -0.05) rentan terhadap positif palsu (<i>false positives</i>) akibat aktivitas panen pertanian, pembangunan jalan, atau derau spekel radar. Untuk memecahkan anomali ini, kerangka kerja ini dirancang menggunakan <strong>Ensemble Machine Learning (RF + GBM)</strong>.
+                    </p>
+                    <ul class="space-y-4 mb-4 text-sm text-slate-700 text-justify">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-circle text-purple-500 mt-1"></i>
+                            <span><strong>Random Forest (RF):</strong> Menggunakan teknik <em>bagging</em> (membangun banyak pohon keputusan yang independen) untuk mengurangi varians data (<i>variance reduction</i>) dan menekan <i>overfitting</i> yang sering muncul pada fitur SAR yang bising.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-circle text-purple-500 mt-1"></i>
+                            <span><strong>Gradient Boosting Machine (GBM):</strong> Berjalan paralel secara <i>boosting</i>, di mana setiap pohon baru memperbaiki kesalahan dari pohon sebelumnya, secara ekstrem mengurangi bias model terhadap pola vegetasi yang rumit.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-circle text-purple-500 mt-1"></i>
+                            <span><strong>Soft-Voting Mechanism:</strong> Probabilitas piksel keluaran dari RF dan GBM digabungkan dan dirata-ratakan secara matematis (<i>soft-voting</i>). Piksel yang disetujui oleh kedua model lalu dihaluskan dengan filter morfologi (<i>focal mode</i> radius 1 piksel) untuk mengeliminasi klasifikasi longsor yang terisolasi secara spasial (derau). Hasilnya adalah batas deteksi yang sangat presisi dengan konfidensi rata-rata di atas 65%.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pipeline Step 4 -->
+            <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
+                <div class="md:w-1/3 relative">
+                    <img src="RiskAnalysis.jpg" alt="Analisis Risiko dan AHP" class="rounded-xl shadow-md w-full object-cover aspect-video border border-slate-200">
+                </div>
+                <div class="md:w-2/3">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 font-bold flex items-center justify-center text-lg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h4 class="text-2xl font-bold text-slate-900 font-['Plus_Jakarta_Sans']">4. Pemodelan Risiko Dinamis Terintegrasi (AHP)</h4>
+                    </div>
+                    <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                        Selain pemetaan diagnostik masa lalu, sistem juga mengeksekusi proyeksi kerentanan spasial (<i>susceptibility</i>) yang bertindak sebagai peringatan dini. Pemodelan raster kalkulatif di belakang layar menggunakan pembobotan <em>Analytical Hierarchy Process</em> (AHP) lima faktor pemicu utama:
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                        <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
+                            <h5 class="font-bold text-slate-800 text-sm"><i class="fa-solid fa-mountain text-slate-400 mr-2"></i>Kemiringan Lereng (Bobot 30%)</h5>
+                            <p class="text-xs text-slate-500 mt-1">Model elevasi NASADEM, memberikan penalti logaritmik eksponensial pada sudut lahan curam di atas batas kritis.</p>
+                        </div>
+                        <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
+                            <h5 class="font-bold text-slate-800 text-sm"><i class="fa-solid fa-cloud-showers-water text-slate-400 mr-2"></i>Presipitasi Anomali (Bobot 20%)</h5>
+                            <p class="text-xs text-slate-500 mt-1">Satelit CHIRPS menghitung akumulasi curah hujan harian historis yang masuk sebagai tegangan hidro-statis pemicu kolaps.</p>
+                        </div>
+                        <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
+                            <h5 class="font-bold text-slate-800 text-sm"><i class="fa-solid fa-tree text-slate-400 mr-2"></i>Kerentanan Tutupan Lahan (20%)</h5>
+                            <p class="text-xs text-slate-500 mt-1">Matriks peta Dynamic World memetakan zona terbangun (bangunan/jalan) tanpa penyangga akar pohon sebagai zona risiko maksimum.</p>
+                        </div>
+                        <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
+                            <h5 class="font-bold text-slate-800 text-sm"><i class="fa-solid fa-droplet text-slate-400 mr-2"></i>Saturasi Kelembapan (Bobot 15%)</h5>
+                            <p class="text-xs text-slate-500 mt-1">Data hidrologi FLDAS menilai kejenuhan tanah sebulan penuh (<i>antecedent moisture</i>) sebelum hujan utama tiba.</p>
+                        </div>
+                        <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-sm sm:col-span-2">
+                            <h5 class="font-bold text-slate-800 text-sm"><i class="fa-solid fa-mound text-slate-400 mr-2"></i>Fraksi Tanah Lempung (Bobot 15%)</h5>
+                            <p class="text-xs text-slate-500 mt-1">Studi geologis global (OpenLandMap) menilai tingginya konsentrasi lempung (<em>clay</em>) yang bertindak layaknya sabun pemicu bidang gelincir bawah tanah saat basah.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- REAL WORLD CASE STUDY -->
+    <section id="casestudy" class="py-20 bg-white border-t border-slate-200">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-blue-600 tracking-widest uppercase mb-2">Implementasi Lapangan</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-['Plus_Jakarta_Sans']">Studi Kasus: Bencana Pasir Langu</h3>
+                <p class="text-slate-600 max-w-3xl mx-auto">Mendemonstrasikan bagaimana komputasi fusi raster IndrajaBuana secara real-time mentabulasi jutaan piksel geospasial menjadi laporan kuantitatif konkret untuk tanggap darurat.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <!-- Left Column: Data & Analytics -->
+                <div class="lg:col-span-5 space-y-6">
+                    
+                    <!-- Top Level Stats -->
+                    <div class="bg-slate-50 p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-lg font-bold text-slate-900 font-['Plus_Jakarta_Sans'] mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-list text-blue-600"></i> Laporan Dampak Fisik
+                        </h4>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-red-100 text-red-600 flex items-center justify-center"><i class="fa-solid fa-flag"></i></div>
+                                    <span class="text-sm font-semibold text-slate-700">Total Luas Runtuhan</span>
+                                </div>
+                                <span class="font-bold text-slate-900 text-lg">3.42 Ha</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-users"></i></div>
+                                    <span class="text-sm font-semibold text-slate-700">Estimasi Kepadatan Populasi</span>
+                                </div>
+                                <span class="font-bold text-slate-900 text-lg">296 Jiwa</span>
+                            </div>
+
+                            <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-amber-100 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-house-chimney-crack"></i></div>
+                                    <span class="text-sm font-semibold text-slate-700">Bangunan Hancur</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-slate-900 text-lg">2.960 m²</div>
+                                    <div class="text-xs text-slate-500 font-medium">(~59 Unit Rumah)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Economic Loss -->
+                    <div class="bg-amber-50 p-6 rounded-2xl shadow-sm border border-amber-200">
+                        <h4 class="text-lg font-bold text-amber-900 font-['Plus_Jakarta_Sans'] mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-rupiah-sign text-amber-600"></i> Valuasi Kerugian Ekonomi
+                        </h4>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between text-sm border-b border-amber-100 pb-2">
+                                <span class="text-amber-800">Kehancuran Fisik Bangunan</span>
+                                <span class="font-semibold text-amber-900">Rp 5.920.000.000</span>
+                            </div>
+                            <div class="flex justify-between text-sm border-b border-amber-100 pb-2">
+                                <span class="text-amber-800">Kerugian Agrikultur / Panen</span>
+                                <span class="font-semibold text-amber-900">Rp 1.500.000</span>
+                            </div>
+                            <div class="flex justify-between text-sm pb-2">
+                                <span class="text-amber-800">Kerusakan Aset Infrastruktur</span>
+                                <span class="font-semibold text-amber-900">Rp 330.000.000</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t-2 border-amber-300 flex justify-between items-center">
+                            <span class="font-bold text-amber-900">Agregat Kerugian</span>
+                            <span class="text-xl font-black text-red-600 tracking-tight">Rp 6.251.500.000</span>
+                        </div>
+                    </div>
+
+                    <!-- LULC Breakdown -->
+                    <div class="bg-slate-50 p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans'] mb-4">Proporsi Lenyapnya Tutupan Lahan Geospasial</h4>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-semibold text-slate-700">Area Hutan & Tegakan Pohon</span>
+                                    <span class="font-bold text-emerald-600">47.6%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                    <div class="bg-emerald-500 h-2 rounded-full" style="width: 47.6%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-semibold text-slate-700">Pemukiman Padat Penduduk</span>
+                                    <span class="font-bold text-rose-600">47.6%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                    <div class="bg-rose-500 h-2 rounded-full" style="width: 47.6%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-semibold text-slate-700">Lahan Pertanian Berbudi Daya</span>
+                                    <span class="font-bold text-amber-500">4.8%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                    <div class="bg-amber-400 h-2 rounded-full" style="width: 4.8%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: App Interface Gallery -->
+                <div class="lg:col-span-7 flex flex-col gap-6">
+                    <div class="bg-slate-800 rounded-2xl p-2 shadow-xl border border-slate-700 overflow-hidden group">
+                        <div class="flex items-center gap-2 mb-2 px-2 pt-1">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div class="text-xs text-slate-400 ml-2 mono">GEE Workspace: Layer Deteksi Machine Learning (RF+GBM)</div>
+                        </div>
+                        <img src="Saropticalfusiondetection.jpg" alt="Antarmuka GEE menampilkan deteksi longsor fusi" class="w-full h-auto rounded-lg border border-slate-600 group-hover:opacity-90 transition">
+                    </div>
+                    
+                    <div class="bg-slate-800 rounded-2xl p-2 shadow-xl border border-slate-700 overflow-hidden group">
+                        <div class="text-xs text-slate-400 mb-2 px-2 pt-1 mono text-center w-full">Antarmuka Analitik Dashboard IndrajaBuana Lengkap</div>
+                        <!-- Re-using INDRAJAbuanaExplorerlogo or full dashboard view representation -->
+                        <img src="INDRAJAbuanaExplorerlogo.jpeg" alt="Tampilan antarmuka analitik panel penuh" class="w-full h-auto rounded-lg border border-slate-600 group-hover:opacity-90 transition">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CITATIONS SECTION (NEW) -->
+    <section id="citations" class="py-20 bg-slate-900 text-slate-300 border-t border-slate-800">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="flex items-center gap-4 mb-8">
+                <i class="fa-solid fa-book-journal-whills text-blue-400 text-3xl"></i>
+                <h3 class="text-2xl font-bold text-white font-['Plus_Jakarta_Sans']">Referensi Utama & Basis Ilmiah</h3>
+            </div>
+            <p class="mb-8 text-sm leading-relaxed text-slate-400">
+                Kerangka kerja Machine Learning spasial dan pemodelan kerentanan lereng dalam IndrajaBuana Landslide Explorer dibangun berdasarkan prinsip-prinsip sains geofisika dan observasi bumi mutakhir, yang direferensikan (di antaranya) dari metodologi analitik dan literatur berikut:
+            </p>
+
+            <div class="space-y-6">
+                <!-- Citation 1 -->
+                <div class="pl-4 border-l-2 border-slate-700">
+                    <p class="text-sm font-semibold text-white mb-1">Pemanfaatan Sentinel-1 SAR & Indeks Hamburan Balik NRBR.</p>
+                    <p class="text-xs text-slate-400 text-justify">
+                        Konversi perubahan amplitudo hamburan gelombang mikro C-Band pada polarisasi silang dan co-linier (VV dan VH) menjadi <i>Normalized Radar Burn Ratio</i> (NRBR) merupakan pendekatan andal untuk deteksi perubahan tutupan lahan masif secara cepat. Metode ini mengkuantifikasi perubahan mendadak dari volume hamburan struktural (vegetasi) menjadi hamburan permukaan kasar (tanah terbuka/longsor) tanpa terhambat oleh kondisi awan atmosfer yang ekstrem.
+                        <br><span class="italic text-slate-500 mt-1 block">Tarazona, Y., & Mantas, V. (2026). Advancing burned area mapping using the Normalized Radar Burn Ratio (NRBR). Remote Sensing Applications: Society and Environment, 41, 101938.</span>
+                    </p>
+                </div>
+
+                <!-- Citation 2 -->
+                <div class="pl-4 border-l-2 border-slate-700">
+                    <p class="text-sm font-semibold text-white mb-1">Fusi Multi-Sensor Optikal (dNDVI) dan Ensemble Algoritma berbasis Pohon (Tree-based ML).</p>
+                    <p class="text-xs text-slate-400 text-justify">
+                        Integrasi fitur radar dan indeks selisih vegetasi optikal <i>(dNDVI)</i> dengan algoritma <i>Random Forest</i> (berbasis bagging varians) dan <i>Gradient Boosting</i> (berbasis kompensasi bias berulang) memberikan peningkatan akurasi metrik klasifikasi <i>(F1-score & Overall Accuracy)</i> yang substansial pada identifikasi zona keruntuhan lereng, mengatasi kelemahan jika metode segmentasi konvensional atau <i>single thresholding</i> digunakan secara mandiri.
+                        <br><span class="italic text-slate-500 mt-1 block">Hendrawan, R. N., dkk. (2021). Deteksi Lahan Longsor Berdasarkan Segmentasi Gambar dan Klasifikasi Machine Learning Menggunakan Citra Satelit Multispektral. Skripsi Program Studi Geofisika: Universitas Padjadjaran.</span>
+                    </p>
+                </div>
+
+                <!-- Citation 3 -->
+                <div class="pl-4 border-l-2 border-slate-700">
+                    <p class="text-sm font-semibold text-white mb-1">Analitik Susseptibilitas AHP Terintegrasi (Topografi, Hidrologi, dan LULC).</p>
+                    <p class="text-xs text-slate-400 text-justify">
+                        Evaluasi bobot <i>Analytical Hierarchy Process</i> (AHP) untuk pembuatan indeks kerawanan dinamis yang memadukan derajat kelerengan dari <i>Digital Elevation Models</i> (NASADEM), agregasi akumulasi presipitasi curah hujan satelit (CHIRPS), saturasi tanah pra-kejadian (FLDAS), dan perubahan pola tata guna ruang <i>(Dynamic World)</i> sangat efektif untuk menilai proyeksi tingkat kerawanan spasial.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE LIVE DASHBOARD -->
+    <section id="live-app" class="py-20 bg-slate-900 border-t border-slate-800">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+                <div>
+                    <h2 class="text-sm font-bold text-blue-400 tracking-widest uppercase mb-2"><i class="fa-solid fa-satellite-dish mr-2"></i>Aplikasi Live</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-white font-['Plus_Jakarta_Sans']">IndrajaBuana Landslide Explorer</h3>
+                    <p class="text-slate-400 mt-2 max-w-2xl text-justify">Akses interaktif penuh ke platform Google Earth Engine. Silakan buat kotak area (AOI) di peta sebelah kanan dan tekan "Jalankan Analisis" di panel kiri untuk mengevaluasi kemampuan komputasi awan aplikasi secara instan.</p>
+                </div>
+                <a href="https://shaped-producer-482312-m0.projects.earthengine.app/view/indraja-buana-landslide-explorer" target="_blank" class="flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white transition bg-slate-800 px-5 py-3 rounded-lg border border-slate-700 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20">
+                    Buka Tab Penuh <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+            
+            <div class="w-full h-[800px] rounded-2xl overflow-hidden shadow-[0_0_40px_-10px_rgba(37,99,235,0.3)] border border-slate-700 bg-slate-800 relative group">
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 z-0">
+                    <i class="fa-solid fa-satellite fa-bounce text-5xl mb-4 text-blue-500/50"></i>
+                    <span class="text-sm font-mono tracking-widest animate-pulse">MEMUAT MESIN GOOGLE EARTH ENGINE...</span>
+                </div>
+                <iframe src="https://shaped-producer-482312-m0.projects.earthengine.app/view/indraja-buana-landslide-explorer" width="100%" height="100%" frameborder="0" class="relative z-10" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <section class="py-12 bg-white border-t border-slate-200">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <img src="DRPRSlogo.jpg" alt="DRPRS Logo Footer" class="w-10 h-10 object-contain rounded border border-slate-200 bg-white">
+                <div class="flex flex-col justify-center">
+                    <span class="font-['Plus_Jakarta_Sans'] font-extrabold text-lg tracking-tight text-slate-900 leading-none">DRPRS Unpad</span>
+                    <span class="text-[9px] uppercase tracking-wider text-slate-500 font-bold mt-1">Digital Rock Physics & Remote Sensing</span>
+                </div>
+            </div>
+            
+            <a href="#live-app" class="flex items-center gap-4 group cursor-pointer bg-slate-50 px-6 py-3 rounded-full shadow-sm border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all">
+                <div class="text-right">
+                    <div class="text-xs font-black text-blue-900 uppercase">Evaluasi Sistem</div>
+                    <div class="text-[10px] text-slate-500">Kembali ke Live Dashboard</div>
+                </div>
+                <div class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full group-hover:bg-blue-500 transition shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </div>
+            </a>
+        </div>
+    </section>
+
+</body>
+</html>
+
+
+
